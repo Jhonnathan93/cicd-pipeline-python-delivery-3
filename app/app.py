@@ -1,36 +1,16 @@
 """Aplicación web Flask de la calculadora con protección CSRF."""
 
 import os
-import secrets
-from pathlib import Path
 
 from flask import Flask, render_template, request
 from flask_wtf.csrf import CSRFProtect
 
 from .calculadora import dividir, multiplicar, restar, sumar
 
-
-def _secret_key() -> str:
-    """Clave sesión/CSRF desde env o desde archivo local compartido."""
-    env_key = os.environ.get("SECRET_KEY")
-    if env_key:
-        return env_key
-
-    default_key_path = (
-        Path(__file__).resolve().parent.parent / ".cicd_pipeline_secret_key"
-    )
-    key_file = Path(os.environ.get("SECRET_KEY_FILE", str(default_key_path)))
-    if key_file.exists():
-        return key_file.read_text(encoding="utf-8").strip()
-
-    key_file.parent.mkdir(parents=True, exist_ok=True)
-    generated_key = secrets.token_hex(32)
-    key_file.write_text(generated_key, encoding="utf-8")
-    return generated_key
-
+app_port = int(os.environ.get("PORT", 5000))
 
 app = Flask(__name__)
-app.secret_key = _secret_key()
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-insecure-key")
 csrf = CSRFProtect(app)
 
 
@@ -56,6 +36,11 @@ def _resultado_from_post() -> str | float | None:
         return "Error: No se puede dividir por cero"
 
 
+@app.route("/health")
+def health():
+    return "OK", 200
+
+
 @app.get("/")
 def index_get():
     """Muestra el formulario de la calculadora."""
@@ -69,5 +54,4 @@ def index_post():
 
 
 if __name__ == "__main__":  # pragma: no cover
-    # Quita debug=True para producción
-    app.run(debug=True, port=5000, host="127.0.0.1")
+    app.run(debug=False, port=app_port, host="0.0.0.0")

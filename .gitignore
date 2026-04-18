@@ -24,3 +24,11 @@ acceptance_coverage.xml
 
 # secret key
 .cicd_pipeline_secret_key
+
+# Terraform
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+infra/terraform.tfstate.d/
+infra/*.tfvars
