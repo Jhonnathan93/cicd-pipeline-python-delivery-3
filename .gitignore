@@ -1,0 +1,26 @@
+# virtual envs
+venv/
+env/
+
+# python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# pytest
+.pytest_cache/
+pytestdebug.log
+
+# coverage
+.coverage
+htmlcov/
+coverage.xml
+report.html
+acceptance_coverage.xml
+
+# IDE
+.vscode/
+
+# secret key
+.cicd_pipeline_secret_key
