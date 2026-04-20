@@ -10,7 +10,7 @@ from .calculadora import dividir, multiplicar, restar, sumar
 app_port = int(os.environ.get("PORT", 5000))
 
 app = Flask(__name__)
-app.config.from_prefixed_env()
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-insecure-key")
 csrf = CSRFProtect(app)
 
 
