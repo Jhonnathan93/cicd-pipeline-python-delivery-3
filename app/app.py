@@ -55,4 +55,4 @@ def index_post():
 
 
 if __name__ == "__main__":  # pragma: no cover
-    app.run(debug=False, port=app_port, host="0.0.0.0")
+    app.run(debug=False, port=app_port)
