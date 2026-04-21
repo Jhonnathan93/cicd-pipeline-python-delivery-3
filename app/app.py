@@ -5,7 +5,7 @@ import os
 from flask import Flask, render_template, request
 from flask_wtf.csrf import CSRFProtect
 
-from .calculadora import dividir, multiplicar, restar, sumar
+from .calculadora import dividir, modulo, multiplicar, potencia, restar, sumar
 
 app_port = int(os.environ.get("PORT", 5000))
 
@@ -25,6 +25,8 @@ def _resultado_from_post() -> str | float | None:
             "restar": restar,
             "multiplicar": multiplicar,
             "dividir": dividir,
+            "potencia": potencia,
+            "modulo": modulo,
         }
         funcion = operaciones.get(operacion)
         if funcion is None:
